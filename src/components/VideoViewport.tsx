@@ -230,13 +230,13 @@ export function VideoViewport({
       aria-label="Lecteur vidéo karaoké"
     >
       {/* Top Status Overlay Bar */}
-      <div className="viewport-hud-top">
-        <div className="hud-track-badge">
+      <div className="viewport-hud-top min-w-0 w-full max-w-full">
+        <div className="hud-track-badge min-w-0 flex-1" title={fileName}>
           <Radio
             size={14}
-            className={isPlaying ? 'pulse-live' : 'muted-icon'}
+            className={`shrink-0 ${isPlaying ? 'pulse-live' : 'muted-icon'}`}
           />
-          <span className="hud-filename">{fileName}</span>
+          <span className="hud-filename truncate">{fileName}</span>
         </div>
 
         <div className="hud-status-pills">
@@ -291,7 +291,7 @@ export function VideoViewport({
 
         {/* Audio-Only / Demo Track Karaoke Stage Overlay */}
         {!hasVideoFrames && (
-          <div className="audio-stage-overlay">
+          <div className="audio-stage-overlay min-w-0 w-full max-w-full">
             <div className="audio-stage-header">
               <Disc3
                 size={34}
@@ -305,13 +305,17 @@ export function VideoViewport({
             </div>
 
             {activeDemoLyric ? (
-              <div className="karaoke-lyric-box">
+              <div className="karaoke-lyric-box min-w-0 w-full max-w-full">
                 <p className="karaoke-lyric-main">{activeDemoLyric.text}</p>
                 <p className="karaoke-lyric-sub">{activeDemoLyric.subtext}</p>
               </div>
             ) : (
-              <div className="karaoke-lyric-box">
-                <p className="karaoke-lyric-main">{fileName}</p>
+              <div className="karaoke-lyric-box min-w-0 w-full max-w-full">
+                <div className="min-w-0 w-full max-w-full" title={fileName}>
+                  <p className="karaoke-lyric-main karaoke-filename-title truncate">
+                    {fileName}
+                  </p>
+                </div>
                 <p className="karaoke-lyric-sub">
                   Verrouillé sur l’horloge maître HTML5 &lt;video&gt; ·
                   Transposition polyphonique en temps réel

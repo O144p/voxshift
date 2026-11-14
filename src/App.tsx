@@ -248,14 +248,14 @@ export function App() {
   }, [engine, isExportModalOpen, isExporting])
 
   return (
-    <div className="studio-shell">
+    <div className="studio-shell min-w-0 w-full max-w-full">
       {/* Studio Top Bar */}
-      <header className="studio-header">
-        <div className="brand-cluster">
-          <div className="brand-logo" aria-hidden="true">
+      <header className="studio-header min-w-0 w-full max-w-full">
+        <div className="brand-cluster min-w-0">
+          <div className="brand-logo shrink-0" aria-hidden="true">
             <AudioWaveform size={22} />
           </div>
-          <div className="brand-titles">
+          <div className="brand-titles min-w-0">
             <h1>VoxShift</h1>
             <span className="brand-subtitle">
               Changeur de Tonalité Karaoké en Temps Réel · DSP AudioWorklet + Export MP4
@@ -305,8 +305,8 @@ export function App() {
       )}
 
       {/* Main Studio Workspace */}
-      <main className="studio-workspace">
-        <div className="viewport-column">
+      <main className="studio-workspace min-w-0 w-full max-w-full">
+        <div className="viewport-column min-w-0 w-full max-w-full">
           {!mediaUrl ? (
             <MediaDropzone
               onFileSelect={handleLoadFile}
@@ -327,7 +327,7 @@ export function App() {
           )}
         </div>
 
-        <div className="deck-column">
+        <div className="deck-column min-w-0 w-full max-w-full">
           <PitchControlDeck
             engineState={engineState}
             canExport={Boolean(currentFile)}

@@ -84,13 +84,13 @@ export function PitchControlDeck({
 
   return (
     <aside
-      className="pitch-deck-card"
+      className="pitch-deck-card min-w-0 w-full max-w-full"
       aria-label="Console de contrôle de tonalité"
     >
       {/* Deck Header */}
-      <div className="deck-header">
-        <div className="deck-title-group">
-          <Sliders size={18} className="accent-icon" />
+      <div className="deck-header min-w-0 w-full">
+        <div className="deck-title-group min-w-0">
+          <Sliders size={18} className="accent-icon shrink-0" />
           <h2>Contrôle de Tonalité</h2>
         </div>
 
@@ -108,18 +108,18 @@ export function PitchControlDeck({
 
       {/* Instant Original / Modified A/B Toggle */}
       <div
-        className="ab-switch-container"
+        className="ab-switch-container min-w-0 w-full max-w-full"
         role="group"
         aria-label="Mode du signal audio"
       >
         <button
           type="button"
-          className={`ab-option ${bypassed ? 'ab-active-original' : ''}`}
+          className={`ab-option min-w-0 ${bypassed ? 'ab-active-original' : ''}`}
           onClick={() => onSetBypass(true)}
           aria-pressed={bypassed}
         >
           <span className="ab-dot" />
-          <div className="ab-text">
+          <div className="ab-text min-w-0">
             <strong>Original</strong>
             <small>Bypass DSP</small>
           </div>
@@ -127,12 +127,12 @@ export function PitchControlDeck({
 
         <button
           type="button"
-          className={`ab-option ${!bypassed ? 'ab-active-modified' : ''}`}
+          className={`ab-option min-w-0 ${!bypassed ? 'ab-active-modified' : ''}`}
           onClick={() => onSetBypass(false)}
           aria-pressed={!bypassed}
         >
           <span className="ab-dot" />
-          <div className="ab-text">
+          <div className="ab-text min-w-0">
             <strong>Modifié</strong>
             <small>Tonalité transposée</small>
           </div>

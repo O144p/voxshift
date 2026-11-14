@@ -72,7 +72,7 @@ export function MediaDropzone({
   if (compact) {
     return (
       <div
-        className={`compact-loader ${isDragging ? 'dragging' : ''}`}
+        className={`compact-loader min-w-0 max-w-full ${isDragging ? 'dragging' : ''}`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
@@ -85,9 +85,12 @@ export function MediaDropzone({
           className="sr-only-input"
           aria-label="Charger un fichier média karaoké"
         />
-        <div className="compact-file-meta" title={currentFileName ?? undefined}>
-          <Film size={15} className="accent-icon" />
-          <span className="compact-file-name">
+        <div
+          className="compact-file-meta min-w-0 flex-1"
+          title={currentFileName ?? undefined}
+        >
+          <Film size={15} className="accent-icon shrink-0" />
+          <span className="compact-file-name truncate">
             {currentFileName || 'Aucune piste chargée'}
           </span>
         </div>

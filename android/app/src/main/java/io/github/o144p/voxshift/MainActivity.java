@@ -1,4 +1,4 @@
-package com.voxshift.app;
+package io.github.o144p.voxshift;
 
 import com.getcapacitor.BridgeActivity;
 

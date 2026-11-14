@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07090e" />
+    <meta
+      name="description"
+      content="VoxShift — Free, open-source real-time karaoke video pitch shifter & offline MP4 export studio for Windows and Android."
+    />
+    <link rel="icon" type="image/png" href="./logo.png" />
+    <title>VoxShift — Real-Time Karaoke Pitch Shifter &amp; MP4 Studio</title>
+    <style>
+      :root {
+        --bg-deep: #07090e;
+        --bg-panel: rgba(15, 19, 29, 0.82);
+        --bg-card: rgba(20, 26, 39, 0.72);
+        --border-subtle: rgba(148, 163, 184, 0.14);
+        --border-glow-cyan: rgba(56, 189, 248, 0.48);
+        --border-glow-violet: rgba(167, 139, 250, 0.48);
+        --text-primary: #f8fafc;
+        --text-secondary: #94a3b8;
+        --text-muted: #64748b;
+        --cyan: #38bdf8;
+        --cyan-dark: #0284c7;
+        --violet: #a78bfa;
+        --violet-dark: #7c3aed;
+        --emerald: #34d399;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family:
+          'Inter',
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          Roboto,
+          sans-serif;
+        background-color: var(--bg-deep);
+        background-image:
+          radial-gradient(circle at 18% 12%, rgba(56, 189, 248, 0.14), transparent 42%),
+          radial-gradient(circle at 82% 18%, rgba(167, 139, 250, 0.14), transparent 44%),
+          radial-gradient(circle at 50% 90%, rgba(14, 165, 233, 0.08), transparent 50%);
+        color: var(--text-primary);
+        min-height: 100vh;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .container {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 2rem 1.25rem 4rem;
+      }
+
+      /* Topbar */
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem 1.25rem;
+        background: var(--bg-panel);
+        border: 1px solid var(--border-subtle);
+        border-radius: 16px;
+        backdrop-filter: blur(16px);
+        margin-bottom: 3.25rem;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: var(--text-primary);
+      }
+
+      .brand img {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        box-shadow: 0 0 18px rgba(56, 189, 248, 0.25);
+      }
+
+      .brand-name {
+        font-size: 1.15rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+
+      .brand-badge {
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        padding: 0.18rem 0.55rem;
+        border-radius: 999px;
+        background: rgba(56, 189, 248, 0.14);
+        color: var(--cyan);
+        border: 1px solid rgba(56, 189, 248, 0.3);
+      }
+
+      .github-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 600;
+        padding: 0.48rem 0.9rem;
+        border-radius: 10px;
+        border: 1px solid var(--border-subtle);
+        background: rgba(255, 255, 255, 0.03);
+        transition: all 0.2s ease;
+      }
+
+      .github-link:hover {
+        color: var(--text-primary);
+        border-color: var(--border-glow-cyan);
+        background: rgba(56, 189, 248, 0.08);
+      }
+
+      /* Hero Section */
+      .hero {
+        text-align: center;
+        max-width: 780px;
+        margin: 0 auto 3.5rem;
+      }
+
+      .hero-logo {
+        width: 124px;
+        height: 124px;
+        border-radius: 28px;
+        margin-bottom: 1.5rem;
+        box-shadow:
+          0 16px 40px rgba(0, 0, 0, 0.6),
+          0 0 40px rgba(56, 189, 248, 0.22),
+          0 0 60px rgba(167, 139, 250, 0.16);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .detected-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--cyan);
+        background: rgba(56, 189, 248, 0.1);
+        border: 1px solid rgba(56, 189, 248, 0.28);
+        padding: 0.3rem 0.85rem;
+        border-radius: 999px;
+        margin-bottom: 1.1rem;
+      }
+
+      .detected-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--emerald);
+        box-shadow: 0 0 8px var(--emerald);
+      }
+
+      h1 {
+        font-size: clamp(2.15rem, 5vw, 3.35rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.12;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #ffffff 10%, #38bdf8 55%, #a78bfa 95%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .hero-subtitle {
+        font-size: clamp(1rem, 2.2vw, 1.18rem);
+        color: var(--text-secondary);
+        max-width: 650px;
+        margin: 0 auto 2.25rem;
+      }
+
+      /* Download Buttons */
+      .cta-group {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 1.15rem;
+      }
+
+      .btn-download {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.85rem;
+        padding: 0.95rem 1.55rem;
+        border-radius: 14px;
+        text-decoration: none;
+        font-weight: 700;
+        transition:
+          transform 0.18s ease,
+          box-shadow 0.18s ease,
+          border-color 0.18s ease;
+        min-width: 265px;
+        text-align: left;
+        border: 1px solid var(--border-subtle);
+        background: var(--bg-card);
+        color: var(--text-primary);
+      }
+
+      .btn-download:hover {
+        transform: translateY(-2px);
+      }
+
+      .btn-download.primary {
+        background: linear-gradient(135deg, rgba(56, 189, 248, 0.22), rgba(167, 139, 250, 0.22));
+        border: 1.5px solid var(--cyan);
+        box-shadow:
+          0 12px 30px rgba(2, 132, 199, 0.25),
+          0 0 24px rgba(56, 189, 248, 0.2);
+      }
+
+      .btn-download.primary:hover {
+        box-shadow:
+          0 16px 36px rgba(2, 132, 199, 0.35),
+          0 0 32px rgba(56, 189, 248, 0.35);
+      }
+
+      .btn-download.secondary {
+        background: rgba(20, 26, 39, 0.85);
+        border: 1px solid rgba(148, 163, 184, 0.25);
+      }
+
+      .btn-download.secondary:hover {
+        border-color: var(--violet);
+        box-shadow: 0 10px 26px rgba(124, 58, 237, 0.2);
+      }
+
+      .btn-icon {
+        width: 28px;
+        height: 28px;
+        flex-shrink: 0;
+        color: var(--cyan);
+      }
+
+      .btn-download.secondary .btn-icon {
+        color: var(--violet);
+      }
+
+      .btn-text {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .btn-title {
+        font-size: 1rem;
+        line-height: 1.25;
+      }
+
+      .btn-meta {
+        font-size: 0.76rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+        margin-top: 0.15rem;
+      }
+
+      .rec-tag {
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 0.12rem 0.45rem;
+        border-radius: 6px;
+        background: rgba(52, 211, 153, 0.18);
+        color: var(--emerald);
+        margin-left: 0.45rem;
+        display: none;
+      }
+
+      .btn-download.primary .rec-tag {
+        display: inline-block;
+      }
+
+      .sub-links {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      }
+
+      .sub-links a {
+        color: var(--cyan);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .sub-links a:hover {
+        text-decoration: underline;
+      }
+
+      /* Feature Grid */
+      .section-title {
+        text-align: center;
+        font-size: 1.35rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.01em;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 1.1rem;
+        margin-bottom: 3.5rem;
+      }
+
+      .feature-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: 16px;
+        padding: 1.35rem;
+        backdrop-filter: blur(12px);
+      }
+
+      .feature-tag {
+        display: inline-block;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 0.74rem;
+        font-weight: 700;
+        color: var(--cyan);
+        background: rgba(56, 189, 248, 0.1);
+        border: 1px solid rgba(56, 189, 248, 0.22);
+        padding: 0.18rem 0.55rem;
+        border-radius: 6px;
+        margin-bottom: 0.65rem;
+      }
+
+      .feature-card h3 {
+        font-size: 1.02rem;
+        margin-bottom: 0.4rem;
+      }
+
+      .feature-card p {
+        font-size: 0.88rem;
+        color: var(--text-secondary);
+      }
+
+      /* 2-Step Installation Guide */
+      .install-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+        gap: 1.25rem;
+        margin-bottom: 3.5rem;
+      }
+
+      .install-card {
+        background: var(--bg-panel);
+        border: 1px solid var(--border-subtle);
+        border-radius: 18px;
+        padding: 1.6rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .install-card.highlight {
+        border-color: var(--border-glow-cyan);
+        box-shadow: 0 0 28px rgba(56, 189, 248, 0.08);
+      }
+
+      .install-header {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        margin-bottom: 1rem;
+      }
+
+      .install-header h3 {
+        font-size: 1.1rem;
+        font-weight: 700;
+      }
+
+      .steps-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+      }
+
+      .step-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+      }
+
+      .step-num {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: rgba(56, 189, 248, 0.16);
+        border: 1px solid rgba(56, 189, 248, 0.4);
+        color: var(--cyan);
+        font-size: 0.78rem;
+        font-weight: 800;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-top: 0.1rem;
+      }
+
+      .step-item strong {
+        color: var(--text-primary);
+      }
+
+      code.inline-pill {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 0.8rem;
+        padding: 0.12rem 0.42rem;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.07);
+        color: var(--violet);
+        border: 1px solid rgba(167, 139, 250, 0.25);
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding-top: 2rem;
+        border-top: 1px solid var(--border-subtle);
+        font-size: 0.86rem;
+        color: var(--text-muted);
+      }
+
+      footer a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      footer a:hover {
+        color: var(--cyan);
+      }
+
+      @media (max-width: 640px) {
+        .btn-download {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Navigation Bar -->
+      <header class="topbar">
+        <a href="https://github.com/O144p/voxshift" class="brand">
+          <img src="./logo.png" alt="VoxShift Logo" />
+          <span class="brand-name">VoxShift</span>
+          <span class="brand-badge">v1.0.0</span>
+        </a>
+        <a
+          href="https://github.com/O144p/voxshift"
+          class="github-link"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+            />
+          </svg>
+          <span>GitHub Repo</span>
+        </a>
+      </header>
+
+      <!-- Hero Section -->
+      <section class="hero">
+        <img src="./logo.png" alt="VoxShift Studio" class="hero-logo" />
+        <div>
+          <span class="detected-pill" id="detected-pill">
+            <span class="detected-dot"></span>
+            <span id="detected-text">Studio Pitch Shifter for Windows &amp; Android</span>
+          </span>
+        </div>
+        <h1>Sing Every Karaoke Song in Your True Key</h1>
+        <p class="hero-subtitle">
+          Transpose any local <strong>.mp4</strong> karaoke video or backing track live from
+          <strong>-12 to +12 semitones</strong> with zero lyric drift, vocal formant preservation,
+          and fast offline MP4 export.
+        </p>
+
+        <div class="cta-group" id="cta-group">
+          <!-- Windows Download Button -->
+          <a
+            id="btn-windows"
+            href="https://github.com/O144p/voxshift/releases/latest/download/VoxShift-Setup.exe"
+            class="btn-download primary"
+          >
+            <svg
+              class="btn-icon"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M3 5.548l7.127-.976v6.86H3V5.548zm0 12.904l7.127.976v-6.86H3v5.884zm7.918 1.084L21 21V12.568h-10.082v6.968zm0-14.072v6.968H21V3l-10.082 1.464z"
+              />
+            </svg>
+            <div class="btn-text">
+              <span class="btn-title">
+                Download for Windows
+                <span class="rec-tag">Recommended</span>
+              </span>
+              <span class="btn-meta">VoxShift-Setup.exe &bull; Windows 10 / 11 (64-bit)</span>
+            </div>
+          </a>
+
+          <!-- Android Download Button -->
+          <a
+            id="btn-android"
+            href="https://github.com/O144p/voxshift/releases/latest/download/VoxShift-v1.0.0.apk"
+            class="btn-download secondary"
+          >
+            <svg
+              class="btn-icon"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M17.523 15.341a.997.997 0 00.998-.998.997.997 0 00-.998-.998.997.997 0 00-.998.998.997.997 0 00.998.998zm-11.046 0a.997.997 0 00.998-.998.997.997 0 00-.998-.998.997.997 0 00-.998.998.997.997 0 00.998.998zm11.405-6.02l1.997-3.459a.416.416 0 00-.152-.567.416.416 0 00-.568.152L17.11 8.951C15.611 8.268 13.865 7.88 12 7.88c-1.865 0-3.611.388-5.11 1.071L4.841 5.447a.416.416 0 00-.568-.152.416.416 0 00-.152.567l1.997 3.459C2.688 11.186.343 14.658 0 18.761h24c-.343-4.103-2.688-7.575-6.118-9.44z"
+              />
+            </svg>
+            <div class="btn-text">
+              <span class="btn-title">
+                Download for Android
+                <span class="rec-tag">Recommended</span>
+              </span>
+              <span class="btn-meta">VoxShift-v1.0.0.apk &bull; Android 8.0+</span>
+            </div>
+          </a>
+        </div>
+
+        <p class="sub-links">
+          100% Free &amp; Open Source (MIT) &bull;
+          <a href="https://github.com/O144p/voxshift/releases" target="_blank" rel="noopener">
+            All Releases
+          </a>
+          &bull;
+          <a href="https://github.com/O144p/voxshift" target="_blank" rel="noopener">
+            Source Code on GitHub
+          </a>
+        </p>
+      </section>
+
+      <!-- Studio Feature Highlights -->
+      <h2 class="section-title">Built for Singers, Hosts &amp; Vocal Coaches</h2>
+      <section class="features-grid">
+        <article class="feature-card">
+          <span class="feature-tag">-12 .. +12 ST</span>
+          <h3>Zero-Drift Live Key Shift</h3>
+          <p>
+            Transpose semitones and micro-tune cents in real time while keeping karaoke lyrics
+            locked to the video master clock.
+          </p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-tag">FORMANT DSP</span>
+          <h3>Vocal Formant Preservation</h3>
+          <p>
+            Powered by polyphonic WebAssembly AudioWorklet DSP so backing vocals never sound
+            chipmunked or hollow.
+          </p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-tag">-c:v copy</span>
+          <h3>Fast Lossless-Video MP4 Export</h3>
+          <p>
+            Renders studio-grade transposed audio offline and remuxes the original MP4 video stream
+            in seconds without re-encoding video frames.
+          </p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-tag">100% LOCAL</span>
+          <h3>Offline &amp; Private by Design</h3>
+          <p>
+            All audio DSP and FFmpeg remuxing run directly on your device—no cloud uploads, file
+            size limits, or subscriptions.
+          </p>
+        </article>
+      </section>
+
+      <!-- Friendly 2-Step Installation Tips -->
+      <h2 class="section-title">Quick 2-Step Installation Guide</h2>
+      <section class="install-grid">
+        <div class="install-card" id="card-windows">
+          <div class="install-header">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#38bdf8" aria-hidden="true">
+              <path
+                d="M3 5.548l7.127-.976v6.86H3V5.548zm0 12.904l7.127.976v-6.86H3v5.884zm7.918 1.084L21 21V12.568h-10.082v6.968zm0-14.072v6.968H21V3l-10.082 1.464z"
+              />
+            </svg>
+            <h3>Installing on Windows (.exe)</h3>
+          </div>
+          <ol class="steps-list">
+            <li class="step-item">
+              <span class="step-num">1</span>
+              <span>
+                Open <strong>VoxShift-Setup.exe</strong>. Because VoxShift is an independent
+                open-source release, Windows SmartScreen may show a blue prompt—click
+                <code class="inline-pill">More info</code> then
+                <code class="inline-pill">Run anyway</code>.
+              </span>
+            </li>
+            <li class="step-item">
+              <span class="step-num">2</span>
+              <span>
+                Choose your installation folder and launch <strong>VoxShift</strong> from your
+                Desktop or Start Menu shortcut.
+              </span>
+            </li>
+          </ol>
+        </div>
+
+        <div class="install-card" id="card-android">
+          <div class="install-header">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#a78bfa" aria-hidden="true">
+              <path
+                d="M17.523 15.341a.997.997 0 00.998-.998.997.997 0 00-.998-.998.997.997 0 00-.998.998.997.997 0 00.998.998zm-11.046 0a.997.997 0 00.998-.998.997.997 0 00-.998-.998.997.997 0 00-.998.998.997.997 0 00.998.998zm11.405-6.02l1.997-3.459a.416.416 0 00-.152-.567.416.416 0 00-.568.152L17.11 8.951C15.611 8.268 13.865 7.88 12 7.88c-1.865 0-3.611.388-5.11 1.071L4.841 5.447a.416.416 0 00-.568-.152.416.416 0 00-.152.567l1.997 3.459C2.688 11.186.343 14.658 0 18.761h24c-.343-4.103-2.688-7.575-6.118-9.44z"
+              />
+            </svg>
+            <h3>Installing on Android (.apk)</h3>
+          </div>
+          <ol class="steps-list">
+            <li class="step-item">
+              <span class="step-num">1</span>
+              <span>
+                Download <strong>VoxShift-v1.0.0.apk</strong> and tap the downloaded file in your
+                browser or Files app.
+              </span>
+            </li>
+            <li class="step-item">
+              <span class="step-num">2</span>
+              <span>
+                If prompted for direct APK installation, tap
+                <code class="inline-pill">Settings &rarr; Allow from this source</code>, then tap
+                <code class="inline-pill">Install</code>.
+              </span>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <footer>
+        <p>
+          Crafted by <a href="https://github.com/O144p">Oussama144p (O144p)</a> &bull;
+          <a href="https://github.com/O144p/voxshift">GitHub Repository</a> &bull; Released under
+          the MIT License
+        </p>
+      </footer>
+    </div>
+
+    <script>
+      (function () {
+        var ua = navigator.userAgent || '';
+        var isAndroid = /Android/i.test(ua);
+        var isWindows = /Windows/i.test(ua);
+
+        var btnWin = document.getElementById('btn-windows');
+        var btnAnd = document.getElementById('btn-android');
+        var cardWin = document.getElementById('card-windows');
+        var cardAnd = document.getElementById('card-android');
+        var ctaGroup = document.getElementById('cta-group');
+        var detectedText = document.getElementById('detected-text');
+
+        if (isAndroid) {
+          btnAnd.className = 'btn-download primary';
+          btnWin.className = 'btn-download secondary';
+          cardAnd.classList.add('highlight');
+          if (ctaGroup && btnAnd.parentNode === ctaGroup) {
+            ctaGroup.insertBefore(btnAnd, btnWin);
+          }
+          if (detectedText) {
+            detectedText.textContent = 'Detected Android Device — Direct APK Ready';
+          }
+        } else if (isWindows) {
+          btnWin.className = 'btn-download primary';
+          btnAnd.className = 'btn-download secondary';
+          cardWin.classList.add('highlight');
+          if (detectedText) {
+            detectedText.textContent = 'Detected Windows PC — NSIS Installer Ready';
+          }
+        } else {
+          cardWin.classList.add('highlight');
+        }
+      })();
+    </script>
+  </body>
+</html>

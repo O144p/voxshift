@@ -21,6 +21,7 @@ build/
 *.p12
 *.pfx
 *.cer
+*.pem
 
 # Android / Gradle Local Caches
 android/.gradle/

@@ -14,13 +14,19 @@
   [![WebAssembly](https://img.shields.io/badge/WebAssembly-DSP_%2B_FFmpeg-654ff0.svg?logo=webassembly&logoColor=white)](https://webassembly.org/)
   [![Electron](https://img.shields.io/badge/Electron-Windows_Desktop-47848f.svg?logo=electron&logoColor=white)](https://www.electronjs.org/)
   [![Capacitor](https://img.shields.io/badge/Capacitor-Android-119eff.svg?logo=capacitor&logoColor=white)](https://capacitorjs.com/)
+
+  <br />
+
+  [![Download for Windows (.exe)](https://img.shields.io/badge/Download_for_Windows-.exe_(NSIS)-38bdf8?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/O144p/voxshift/releases/latest/download/VoxShift-Setup.exe)
+  [![Download for Android (.apk)](https://img.shields.io/badge/Download_for_Android-.apk_(v1.0.0)-a78bfa?style=for-the-badge&logo=android&logoColor=white)](https://github.com/O144p/voxshift/releases/latest/download/VoxShift-v1.0.0.apk)
+  [![Official Download Page](https://img.shields.io/badge/Download_Page-o144p.github.io%2Fvoxshift-10b981?style=for-the-badge&logo=githubpages&logoColor=white)](https://o144p.github.io/voxshift/)
 </div>
 
 ---
 
 ## Overview
 
-**VoxShift** (`com.voxshift.app`) is an open-source, studio-grade karaoke key changer and offline MP4 export suite built for singers, vocal coaches, and live karaoke hosts.
+**VoxShift** (`io.github.o144p.voxshift`) is an open-source, studio-grade karaoke key changer and offline MP4 export suite built for singers, vocal coaches, and live karaoke hosts.
 
 Load any local `.mp4` karaoke video (or `.mp3`, `.wav`, `.m4a` backing track), transpose the musical key live from **-12 to +12 semitones** with **-50 to +50 cents** micro-tuning, compare the **Original** and **Modified** keys instantaneously with a glitch-free A/B crossfader, and export a transposed `.mp4` in seconds using lossless video stream copying (`-c:v copy`).
 

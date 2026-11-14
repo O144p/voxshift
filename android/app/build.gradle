@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace = "com.voxshift.app"
+    namespace = "io.github.o144p.voxshift"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.voxshift.app"
+        applicationId "io.github.o144p.voxshift"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

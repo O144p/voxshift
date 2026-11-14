@@ -1,0 +1,63 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build & Packaging Outputs
+dist/
+dist-ssr/
+release/
+out/
+build/
+
+# Executables, Android Packages & Signing Keys
+*.exe
+*.msi
+*.appx
+*.apk
+*.aab
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.cer
+
+# Android / Gradle Local Caches
+android/.gradle/
+android/.idea/
+android/build/
+android/app/build/
+android/capacitor-cordova-android-plugins/
+android/local.properties
+*.iml
+
+# TypeScript, Vite & Linter Caches
+*.tsbuildinfo
+.vite/
+.eslintcache
+.oxlintcache
+
+# Logs & Environment Files
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.env
+.env.*
+!.env.example
+*.local
+
+# Editor & OS Files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
